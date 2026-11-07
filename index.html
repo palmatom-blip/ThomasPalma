@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PALMA – Design Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Roboto+Condensed:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#161618;--fg:#fff;--card:#d9d9d9}
+@media (prefers-color-scheme: dark){:root{--bg:#161618}}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{background:var(--bg);color:var(--fg);font-family:'Roboto Condensed','Arial Narrow',sans-serif;transition:background .9s;overflow-x:hidden}
+#gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1}
+.sec{height:100vh;min-height:520px;display:flex;align-items:center;justify-content:space-between;padding:0 7vw;scroll-snap-align:center;gap:4vw}
+.sec.flip{flex-direction:row-reverse}
+.stage{perspective:900px;width:min(42vw,58vh*1.31);aspect-ratio:1.31;flex:none}
+.frame{width:100%;height:100%;border-radius:36px;background:var(--card);overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.5);will-change:transform;-webkit-mask-image:radial-gradient(circle,#000 var(--r,9px),transparent calc(var(--r,9px) + 1.5px));mask-image:radial-gradient(circle,#000 var(--r,9px),transparent calc(var(--r,9px) + 1.5px));-webkit-mask-size:10px 10px;mask-size:10px 10px}
+.frame img{width:100%;height:100%;object-fit:cover;display:block}
+.info{flex:1;min-width:0;max-width:520px;overflow-wrap:break-word;text-align:right;transition:opacity .2s}
+.flip .info{text-align:left}
+.info h2{text-wrap:balance;font-family:'Barlow Condensed',Impact,sans-serif;font-size:clamp(44px,7vw,84px);line-height:1;text-transform:uppercase;color:#e6e6e6;margin-bottom:18px}
+.info p{text-wrap:pretty;font-size:clamp(17px,1.7vw,24px);line-height:1.3;color:#e6e6e6;margin-bottom:14px}
+.btn{display:inline-block;margin-top:22px;padding:12px 26px;background:#fff;color:#000;font-family:'Barlow Condensed',sans-serif;font-size:22px;text-transform:uppercase;text-decoration:none;transform:skewX(-10deg);border-radius:6px;font-style:italic;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:skewX(-10deg) scale(1.06);box-shadow:0 0 24px rgba(255,255,255,.5)}
+#hero{justify-content:center;position:relative}
+.titlebox{position:absolute;left:calc(50% + 4vw);top:50%;transform:translateY(-50%);background:none;font:700 clamp(48px,7vw,96px)/1 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;color:#e6e6e6}
+.chev{position:absolute;left:30%;bottom:6vh;width:44px;height:50px;transform:translateX(-50%);animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,10px)}}
+#dots{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:5;display:flex;flex-direction:column;gap:14px}
+#dots a{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.35);transition:.3s;display:block}
+#dots a.on{background:#fff;transform:scale(1.3)}
+.contact{margin:0 auto;text-align:center}
+.contact .eyebrow{font:500 clamp(18px,2vw,26px) 'Barlow Condensed',sans-serif;letter-spacing:.3em;text-transform:uppercase;color:var(--ca,#ffd36b);margin-bottom:18px}
+.contact h2{font:700 clamp(56px,11vw,150px)/.95 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;color:#fff;margin-bottom:34px}
+.contact .links{display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.4vw,26px)}
+.contact .links svg{width:1.3em;height:1.3em}
+.contact .links a,.contact .links span{display:inline-flex;align-items:center;gap:12px;color:#e6e6e6;text-decoration:none;font:500 clamp(20px,2.2vw,28px) 'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.06em;transition:color .25s,transform .25s}
+.contact .links a:hover{color:#3b9cff;transform:translateY(-3px)}
+.contact .links span{text-transform:none;letter-spacing:.02em}
+#case{position:fixed;inset:0;z-index:60;display:none;background:rgba(5,5,10,0);transition:background .5s}
+#case.on{display:block}#case.bg{background:rgba(5,5,10,.78)}
+.cp{position:fixed;overflow:hidden;background:var(--cbg,#111);box-shadow:0 40px 100px rgba(0,0,0,.6);transition:left .65s cubic-bezier(.2,.8,.2,1),top .65s cubic-bezier(.2,.8,.2,1),width .65s cubic-bezier(.2,.8,.2,1),height .65s cubic-bezier(.2,.8,.2,1),border-radius .65s}
+.cs{position:absolute;inset:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+.hero{height:var(--h0);transition:height .65s cubic-bezier(.2,.8,.2,1);background:var(--cbg)}
+.hero img{width:100%;height:100%;object-fit:contain;display:block}
+.cp.full .hero{height:min(60vh,540px)}
+.cbody{padding:clamp(24px,5vw,64px) clamp(24px,5vw,64px) clamp(60px,8vw,120px);max-width:1180px;margin:0 auto;opacity:0;transform:translateY(24px);transition:opacity .45s .3s,transform .45s .3s}
+.cp.full .cbody{opacity:1;transform:none}
+.cx{position:absolute;top:16px;right:16px;z-index:3;width:46px;height:46px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:30px;line-height:1;cursor:pointer;opacity:0;transition:opacity .3s .4s,background .2s}
+.cp.full .cx{opacity:1}.cx:hover{background:#3b9cff}
+.cbody h2{font:700 clamp(40px,6vw,80px)/1 'Barlow Condensed',Impact,sans-serif;text-transform:uppercase;color:var(--ch,#fff);text-wrap:balance}
+.cmeta{display:flex;gap:clamp(24px,5vw,60px);flex-wrap:wrap;margin:26px 0 30px;padding:18px 0;border-top:1px solid var(--cl,rgba(255,255,255,.18));border-bottom:1px solid var(--cl,rgba(255,255,255,.18))}
+.cmeta b{display:block;font:500 14px 'Barlow Condensed',sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--ca);margin-bottom:4px}
+.cmeta span{font-size:clamp(18px,2vw,22px);color:var(--cf,#e6e6e6)}
+.cbody h3{font:500 clamp(24px,3vw,34px) 'Barlow Condensed',sans-serif;text-transform:uppercase;color:var(--ch,var(--ca));margin:34px 0 10px}
+.cbody p{margin-bottom:1em;font-size:clamp(17px,1.6vw,21px);line-height:1.65;color:var(--cf,#e6e6e6);text-wrap:pretty}
+.cbody .g img{width:100%;border-radius:18px;margin-top:20px;display:block}
+.cblocks{margin-top:clamp(40px,6vw,80px)}
+.bi{width:100%;display:block;border-radius:18px;margin-top:clamp(28px,4vw,56px)}
+.vid{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;margin-top:clamp(28px,4vw,56px);border-radius:18px;overflow:hidden;background:#000}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.bs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center;margin-top:clamp(56px,8vw,110px)}
+.bs .bi{margin:0}.bs.flip .bi{order:2}
+.bt{max-width:62ch;margin-top:clamp(56px,8vw,110px)}.bs .bt{margin:0}
+.bt h3{margin-top:0}
+.bt ul{list-style:none;padding:0;display:grid;gap:10px;font-size:clamp(17px,1.6vw,21px);line-height:1.5;color:var(--cf,#e6e6e6)}
+.bt li:before{content:'\2726  ';color:var(--ca)}
+.gr{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:clamp(28px,4vw,56px)}.bs .gr{margin:0}
+.gx{display:flex;gap:12px;margin:0 auto;max-width:100%}.gx img{min-width:0;width:0;height:auto;object-fit:cover;border-radius:12px;display:block}
+.gc{display:flex;gap:12px;align-items:flex-start}.gc>div{min-width:0;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}.gc img{width:100%;height:auto;border-radius:12px;display:block}
+.bt+.bi{margin-top:clamp(24px,3vw,40px)}
+@media (max-width:760px){.bs{grid-template-columns:minmax(0,1fr)}.bs.flip .bi{order:0}
+ .sec,.sec.flip{flex-direction:column;justify-content:center;padding:0 8vw;gap:28px}
+ .stage{width:78vw}.info,.flip .info{text-align:center}
+ .titlebox{left:50%;top:auto;bottom:18vh;transform:translateX(-50%);white-space:nowrap;text-align:center}
+ .chev{left:50%}
+}
+</style>
+</head>
+<body>
+<canvas id="gl"></canvas>
+<nav id="dots"></nav>
+<main>
+ <section class="sec" id="hero">
+  <div class="titlebox" id="title">Design<br>Portfolio</div>
+  <svg class="chev" id="chev" viewBox="0 0 44 50" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4l19 14L41 4M3 20l19 14 19-14M3 36l19 14 19-14"/></svg>
+ </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* ============ EDIT YOUR PROJECTS HERE (img = path or URL to your image) ============ */
+const PROJECTS=[
+ {title:"Princess Pal App",desc:["App concept created for Princess Cruises. Marketing the cruising experience to Gen Z audiences."],btn:'View Project',link:'#',img:'images/cover-princess-pal.jpg',accent:'#7da2ff',bg:'#0c1433'},
+ {title:"Friends of the Cape Cod",desc:["Rebranding the FCCNS nonprofit with a new modern visual identity, updating their physical and digital touchpoints."],btn:'View Project',link:'#',img:'images/cover-friends-of-cape-cod.jpg',accent:'#f2b84b',bg:'#1f1608'},
+ {title:"Anchorage Olympics",desc:["Event branding for a hypothetical Winter Olympics in Alaska. Using Anchorage history to connect the global event to the history of Alaska."],btn:'View Project',link:'#',img:'images/cover-anchorage-olympics.jpg',accent:'#37b4ff',bg:'#06182b'},
+ {title:"USU Marketing",desc:["Marketing for on campus events for the University Student Union and its main departments."],btn:'View Project',link:'#',img:'images/cover-usu-marketing.jpg',accent:'#d46bff',bg:'#1c0a2b'}
+];
+const PH='Replace this with a few sentences about this part of the project.';
+const SECT=[{h:'The Challenge',p:PH},{h:'The Process',p:PH},{h:'The Result',p:PH}];
+/* Case study popups: one entry per project, same order. Add image URLs to gallery:[] to show more pictures. */
+const CASES=[
+ {
+  "client": "Princess Cruises",
+  "type": "App concept",
+  "blocks": [
+   // {
+   //  "img": "images/princess-pal-01.jpg"
+   // },
+   {
+    "img": "images/princess-pal-02.gif",
+    "split": 1,
+    "h": "For this case study I was the…",
+    "list": [
+     "Brand designer",
+     "UX/UI designer",
+     "Wireframer",
+     "Illustrator"
+    ]
+   },
+   {
+    "h": "Demographic Research"
+   },
+   {
+    "img": "images/princess-pal-03.jpg"
+   },
+   {
+    "h": "Guest Experience",
+    "p": [
+     "We found that there is little to no engagement with the Princess Cruises brand before, during, and after the trip, resulting in missed opportunities to build excitement and sustain connection. Additionally, current onboard experiences and digital offerings fail to engage Gen Z and do not provide meaningful ways for guests to interact or share their experiences."
+    ]
+   },
+   {
+    "img": "images/princess-pal-04.gif"
+   },
+   {
+    "img": "images/princess-pal-05.gif",
+    "split": 1,
+    "h": "Our Solution",
+    "p": [
+     "Princess Pal creates a continuous connection with guests before, during, and after their cruise, building excitement, enhancing onboard interaction, and extending engagement beyond the voyage, especially for younger audiences."
+    ],
+    "flip": 1
+   },
+   {
+    "img": "images/princess-pal-06.png"
+   },
+   {
+    "h": "Asset Creation"
+   },
+   {
+    "img": "images/princess-pal-07.jpg"
+   },
+   {
+    "img": "images/princess-pal-08.jpg",
+    "split": 1,
+    "p": [
+     "Our creative direction was rooted in Gen Z’s interest in playful, character-driven, and interactive digital experiences, and translated those preferences through the Princess Cruises brand. Using the Princess mascot as the key inspiration, along with other recognizable brand icons, we developed Princess Pal, a pocket-sized companion that feels approachable, expressive, and seamlessly connected to the onboard experience before, during, and after the cruise.",
+     "For the creative assets, I developed a full suite of visuals to support both the app experience and promotional materials. After designing the initial Princess Pal character, I created multiple iterations to allow for user customization and personal expression. I also designed immersive backgrounds representing different onboard environments, along with branded frames for digital photos, loading screens, and login interfaces, ensuring a cohesive and engaging visual system throughout the entire experience."
+    ]
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/princess-pal-09.png",
+        "w": 147,
+        "h": 320
+       },
+       {
+        "img": "images/princess-pal-10.png",
+        "w": 147,
+        "h": 320
+       },
+       {
+        "img": "images/princess-pal-11.png",
+        "w": 147,
+        "h": 320
+       },
+       {
+        "img": "images/princess-pal-12.png",
+        "w": 146,
+        "h": 320
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "img": "images/princess-pal-13.png"
+   },
+   {
+    "img": "images/princess-pal-14.gif",
+    "split": 1,
+    "h": "Logo that connects app and brand",
+    "p": [
+     "The Princess Pal logo centers the mascot while using brand colors and typography to connect seamlessly with the Princess Cruises identity across both mobile and promotional platforms."
+    ]
+   },
+   {
+    "img": "images/princess-pal-15.jpg"
+   },
+   {
+    "img": "images/princess-pal-16.jpg"
+   },
+   {
+    "video": "https://www.youtube.com/embed/r2WLochoqaI?si=v14w5KK5x9Gnu2XQ",
+    "title": "Princess Pal case study video"
+   }
+  ],
+  "theme": {
+   "bg": "#ffffff",
+   "fg": "#1c2748",
+   "h": "#0b3a9e",
+   "a": "#e60060",
+   "line": "rgba(11,58,158,.2)"
+  }
+ },
+ {
+  "client": "Friends of the Cape Cod National Seashore",
+  "type": "Rebrand",
+  "blocks": [
+   {
+    "img": "images/friends-of-cape-cod-01.gif"
+   },
+   {
+    "img": "images/friends-of-cape-cod-02.png",
+    "split": 1,
+    "h": "About",
+    "p": [
+     "The Friends of the Cape Cod National Seashore is the not-for-profit fundraising partner of the Cape Cod National Seashore; a partnership established in 1987 to help preserve, protect, and enhance the fragile environment, visitor experience, and unique cultural heritage of the park.",
+     "With a team of designers, our mission was to re-design and modernize FCCNS to deepen their impact and outreach within the local community, while evolving the marketing to honor FCCNS heritage. After the new design system was established, applications and social media content was prepared for the client."
+    ],
+    "flip": 1
+   },
+   {
+    "img": "images/friends-of-cape-cod-03.png",
+    "split": 1,
+    "h": "What I Did",
+    "p": [
+     "For this project I contributed by making the:"
+    ],
+    "list": [
+     "Updated logo",
+     "New brand guidelines",
+     "Image bank",
+     "Brand applications",
+     "Translated digital materials"
+    ]
+   },
+   {
+    "h": "Applications + Social Media",
+    "p": [
+     "After defining the brand direction and delivering the new design system to the client, I made a bank of applications and social media assets using the new brand system. Below are all the provided images, mockups, and social media content."
+    ]
+   },
+   {
+    "img": "images/friends-of-cape-cod-04.png"
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/friends-of-cape-cod-05.jpg",
+        "w": 318,
+        "h": 318
+       },
+       {
+        "img": "images/friends-of-cape-cod-06.jpg",
+        "w": 318,
+        "h": 318
+       },
+       {
+        "img": "images/friends-of-cape-cod-07.jpg",
+        "w": 457,
+        "h": 318
+       },
+       {
+        "img": "images/friends-of-cape-cod-08.jpg",
+        "w": 474,
+        "h": 318
+       }
+      ],
+      "frac": 1.0
+     },
+     {
+      "cells": [
+       {
+        "img": "images/friends-of-cape-cod-09.jpg",
+        "w": 397,
+        "h": 276
+       },
+       {
+        "img": "images/friends-of-cape-cod-10.jpg",
+        "w": 245,
+        "h": 276
+       },
+       {
+        "img": "images/friends-of-cape-cod-11.jpg",
+        "w": 245,
+        "h": 276
+       },
+       {
+        "img": "images/friends-of-cape-cod-12.jpg",
+        "w": 276,
+        "h": 276
+       },
+       {
+        "img": "images/friends-of-cape-cod-13.jpg",
+        "w": 394,
+        "h": 276
+       }
+      ],
+      "frac": 0.994
+     },
+     {
+      "cells": [
+       {
+        "img": "images/friends-of-cape-cod-14.jpg",
+        "w": 437,
+        "h": 304
+       },
+       {
+        "img": "images/friends-of-cape-cod-15.jpg",
+        "w": 375,
+        "h": 304
+       },
+       {
+        "img": "images/friends-of-cape-cod-16.jpg",
+        "w": 440,
+        "h": 304
+       },
+       {
+        "img": "images/friends-of-cape-cod-17.jpg",
+        "w": 315,
+        "h": 304
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "img": "images/friends-of-cape-cod-18.png"
+   },
+   {
+    "split": 1,
+    "h": "Imagery & Icons",
+    "p": [
+     "Imagery should reflect FCCNS’s mission to protect and celebrate Cape Cod’s nature, culture, and community. Focus on local landscapes, wildlife, landmarks, and everyday community moments. When people are shown, imagery should feel inclusive, authentic and representative of the Cape Cod community.",
+     "The icons are intended to be used for Instagram Highlights. However, they can also be implemented on promotional and educational materials where categorizing information could be visually helpful."
+    ],
+    "flip": 1,
+    "cols": [
+     [
+      {
+       "img": "images/friends-of-cape-cod-19.jpg",
+       "w": 278,
+       "h": 216
+      },
+      {
+       "img": "images/friends-of-cape-cod-20.jpg",
+       "w": 278,
+       "h": 230
+      },
+      {
+       "img": "images/friends-of-cape-cod-21.jpg",
+       "w": 278,
+       "h": 172
+      }
+     ],
+     [
+      {
+       "img": "images/friends-of-cape-cod-22.jpg",
+       "w": 268,
+       "h": 216
+      },
+      {
+       "img": "images/friends-of-cape-cod-23.jpg",
+       "w": 268,
+       "h": 125
+      },
+      {
+       "img": "images/friends-of-cape-cod-24.jpg",
+       "w": 268,
+       "h": 273
+      }
+     ],
+     [
+      {
+       "img": "images/friends-of-cape-cod-25.jpg",
+       "w": 303,
+       "h": 274
+      },
+      {
+       "img": "images/friends-of-cape-cod-26.jpg",
+       "w": 303,
+       "h": 354
+      }
+     ]
+    ]
+   },
+   {
+    "img": "images/friends-of-cape-cod-27.jpg"
+   }
+  ],
+  "theme": {
+   "bg": "#041326",
+   "fg": "#e9eef3",
+   "h": "#ffffff",
+   "a": "#ffcf33",
+   "line": "rgba(255,255,255,.18)"
+  }
+ },
+ {
+  "client": "Anchorage Winter Olympics",
+  "type": "Event branding",
+  "blocks": [
+   {
+    "img": "images/anchorage-olympics-01.jpg"
+   },
+   {
+    "img": "images/anchorage-olympics-02.jpg",
+    "split": 1,
+    "h": "Project Overview",
+    "p": [
+     "Olympic campaign the Winter Olympics in Anchorage Alaska. Drawing from Anchorage’s history, cultural murals, and natural landscapes, I designed a visual identity that reflects Alaska’s spirit and environment. The project includes a brand layout, as well as apparel, posters, and other print and digital materials that capture the energy of the Winter Olympic."
+    ],
+    "flip": 1
+   },
+   {
+    "img": "images/anchorage-olympics-03.png",
+    "split": 1,
+    "h": "Design Process",
+    "p": [
+     "After researching Anchorage’s history, I found that the name ‘Anchorage’ came from the fact it was at the time of discovery a safe place to drop anchor. Anchorage is considered the heart of Alaska and is a large hub due to its connection to the sea.",
+     "In my design I incorporate this into a hook shape, mimicking the shape of the anchor hook. I also took inspiration from Alaska’s deep art and heritage root. Looking at murals, historical art, and native animals, I used the shape of a native bird in the Alaska native art style, keeping both the hook and animal shape into the design."
+    ]
+   },
+   {
+    "img": "images/anchorage-olympics-04.png"
+   },
+   {
+    "img": "images/anchorage-olympics-05.jpg"
+   },
+   {
+    "h": "Digital, Print + Applications"
+   },
+   {
+    "img": "images/anchorage-olympics-06.jpg"
+   },
+   {
+    "img": "images/anchorage-olympics-07.png"
+   },
+   {
+    "img": "images/anchorage-olympics-08.jpg"
+   },
+   {
+    "img": "images/anchorage-olympics-09.jpg"
+   },
+   {
+    "img": "images/anchorage-olympics-10.png"
+   },
+   {
+    "img": "images/anchorage-olympics-11.png"
+   }
+  ],
+  "theme": {
+   "bg": "#030d4b",
+   "fg": "#e6e9ff",
+   "h": "#ffffff",
+   "a": "#febe10",
+   "line": "rgba(255,255,255,.18)"
+  }
+ },
+ {
+  "client": "CSUN University Student Union",
+  "type": "Campaign marketing",
+  "blocks": [
+   {
+    "img": "images/usu-marketing-01.jpg",
+    "split": 1,
+    "h": "USU Night Market",
+    "p": [
+     "Night Market is an annual University Student Union (USU) event where students and community members strolled a Plaza del Sol that was transformed into a colorful, music-filled festival space. With over 2000+ student attendees, it is one of the bigger events on campus.",
+     "With the lead up to Night Market, I was tasked with the event’s visual direction, working with the department to define the style and art for the event then translate that into print and digital advertising and displays."
+    ]
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/usu-marketing-02.png",
+        "w": 304,
+        "h": 457
+       },
+       {
+        "img": "images/usu-marketing-03.png",
+        "w": 685,
+        "h": 457
+       },
+       {
+        "img": "images/usu-marketing-04.jpg",
+        "w": 591,
+        "h": 457
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/usu-marketing-05.jpg",
+        "w": 228,
+        "h": 285
+       },
+       {
+        "img": "images/usu-marketing-06.jpg",
+        "w": 651,
+        "h": 285
+       },
+       {
+        "img": "images/usu-marketing-07.jpg",
+        "w": 185,
+        "h": 285
+       },
+       {
+        "img": "images/usu-marketing-08.jpg",
+        "w": 506,
+        "h": 285
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "img": "images/usu-marketing-09.png",
+    "split": 1,
+    "h": "Spring Fest",
+    "p": [
+     "The USU Spring Fest is an annual welcome-back celebration and open house hosted by the University Student Union (USU). Features interactive attractions like mini-golf (Putt-Putt), scavenger hunts with prize giveaways, craft sessions, and free food booths."
+    ],
+    "flip": 1
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/usu-marketing-10.gif",
+        "w": 262,
+        "h": 466
+       },
+       {
+        "img": "images/usu-marketing-11.png",
+        "w": 699,
+        "h": 466
+       },
+       {
+        "img": "images/usu-marketing-12.jpg",
+        "w": 619,
+        "h": 466
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/usu-marketing-13.jpg",
+        "w": 254,
+        "h": 393
+       },
+       {
+        "img": "images/usu-marketing-14.jpg",
+        "w": 304,
+        "h": 393
+       },
+       {
+        "img": "images/usu-marketing-15.jpg",
+        "w": 698,
+        "h": 393
+       },
+       {
+        "img": "images/usu-marketing-16.jpg",
+        "w": 314,
+        "h": 393
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "h": "Digital Deliverables",
+    "p": [
+     "Digital deliverables for other marketed events. Translating event branding into different file formats and platforms for distribution. Each event followed a brand standard for the USU Marketing team and used formatted headers, footers, and logos."
+    ]
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/usu-marketing-17.jpg",
+        "w": 527,
+        "h": 408
+       },
+       {
+        "img": "images/usu-marketing-18.jpg",
+        "w": 528,
+        "h": 408
+       },
+       {
+        "img": "images/usu-marketing-19.jpg",
+        "w": 525,
+        "h": 408
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   },
+   {
+    "rows": [
+     {
+      "cells": [
+       {
+        "img": "images/usu-marketing-20.jpg",
+        "w": 720,
+        "h": 556
+       },
+       {
+        "img": "images/usu-marketing-21.jpg",
+        "w": 720,
+        "h": 554
+       }
+      ],
+      "frac": 1.0
+     }
+    ]
+   }
+  ],
+  "theme": {
+   "bg": "#000000",
+   "fg": "#f2f2f2",
+   "h": "#ffffff",
+   "a": "#f0187c",
+   "line": "rgba(255,255,255,.2)"
+  }
+ }
+];
+const CONTACT={tagline:'Designed to shine',email:'Palmatom47@gmail.com',linkedin:'https://www.linkedin.com/in/thomas-palma-/',instagram:'https://www.instagram.com/thomaspalma_/',accent:'#b9b4ff',bg:'#161618'};
+
+const HERO={accent:'#b9b4ff',bg:'#161618'};
+/* =================================================================================== */
+/* CASE STUDIES: edit text, client and type below. Image paths point to the images/ folder. */
+
+const main=document.querySelector('main'),dotsNav=document.getElementById('dots');
+const secs=[];
+PROJECTS.forEach((p,i)=>{
+ const s=document.createElement('section');s.className='sec'+(i%2?' flip':'');
+ s.innerHTML=`<div class="stage"><div class="frame">${p.img?`<img src="${p.img}" alt="${p.title}">`:''}</div></div>
+ <div class="info"><h2>${p.title.split(' ').length>2?p.title.replace(/ (\S+)$/,'&nbsp;$1'):p.title}</h2>${p.desc.map(d=>`<p>${d.replace(/ (\S+)$/,'&nbsp;$1')}</p>`).join('')}<a class="btn" href="#case" data-i="${i}">${p.btn}</a></div>`;
+ main.appendChild(s);secs.push({el:s,stage:s.querySelector('.stage'),frame:s.querySelector('.frame'),info:s.querySelector('.info'),p});
+});
+const cs=document.createElement('section');cs.className='sec';cs.id='contact';
+cs.innerHTML=`<div class="contact"><h2>${CONTACT.tagline.replace(/ to /,'<br>to ')}</h2><div class="links"><span><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 7l9 6 9-6" fill="none" stroke="currentColor" stroke-width="2"/></svg>${CONTACT.email}</span><a href="${CONTACT.linkedin}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3zm7 0h3.8v1.6h.1c.5-1 1.8-1.9 3.7-1.9 4 0 4.4 2.6 4.4 6V21h-4v-5c0-1.2 0-2.8-1.7-2.8S14 14.1 14 15.9V21h-4z"/></svg>LinkedIn</a><a href="${CONTACT.instagram}" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>Instagram</a></div></div>`;
+main.appendChild(cs);const contactBox=cs.firstChild;
+const allSecs=[document.getElementById('hero'),...secs.map(s=>s.el),cs];
+const PAL=[HERO,...PROJECTS,CONTACT];
+allSecs.forEach((s,i)=>{const a=document.createElement('a');a.href='#';a.onclick=e=>{e.preventDefault();s.scrollIntoView({behavior:'smooth'})};dotsNav.appendChild(a)});
+
+const cvs=document.getElementById('gl');
+const R=new THREE.WebGLRenderer({canvas:cvs,alpha:true,antialias:true});
+const scene=new THREE.Scene(),cam=new THREE.PerspectiveCamera(50,1,10,12000);
+const bgGroup=new THREE.Group(),logoGroup=new THREE.Group();scene.add(bgGroup,logoGroup);
+let W=innerWidth,H=innerHeight,CAM=1000;
+const PX=Math.min(devicePixelRatio||1,2);
+
+const VS=`attribute float aS;attribute vec3 aR;attribute vec3 aC;varying vec3 vC;uniform float uD,uPx,uCam,uOff,uWrap,uTime;varying float vA;
+void main(){vec3 p=position;
+ if(uWrap>.5){p.z=mod(p.z+uOff+7000.,7800.)-7000.;}
+ p+=aR*uD*750.;p.xy+=vec2(-aR.y,aR.x)*uD*220.;
+ vec4 mv=modelViewMatrix*vec4(p,1.);float d=-mv.z;
+ gl_PointSize=max(aS*uPx*uCam/d*(1.-.5*uD),1.);
+ float tw=uWrap>.5?.7+.3*sin(uTime*1.6+aR.x*40.):1.;
+ float f=1.;if(uWrap>.5){f=clamp(1.-(d-uCam)/6500.,0.,1.)*clamp((d-250.)/350.,0.,1.);}
+ vA=(1.-smoothstep(.3,1.,uD))*tw*f;vC=aC;gl_Position=projectionMatrix*mv;}`;
+const FS=`precision mediump float;uniform vec3 uC;uniform float uUseC;varying vec3 vC;varying float vA;
+void main(){float r=length(gl_PointCoord-.5);if(r>.5)discard;gl_FragColor=vec4(mix(uC,vC,uUseC),vA*smoothstep(.5,.12,r));}`;
+const mkMat=(wrap)=>new THREE.ShaderMaterial({vertexShader:VS,fragmentShader:FS,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+ uniforms:{uD:{value:0},uPx:{value:PX},uCam:{value:CAM},uOff:{value:0},uWrap:{value:wrap?1:0},uTime:{value:0},uC:{value:new THREE.Color('#b9b4ff')},uUseC:{value:0}}});
+function mkPoints(pos,sizes,mat,cols){
+ const n=sizes.length,g=new THREE.BufferGeometry(),r=new Float32Array(n*3);
+ for(let i=0;i<n*3;i++)r[i]=Math.random()*2-1;
+ g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(pos),3));
+ g.setAttribute('aS',new THREE.BufferAttribute(new Float32Array(sizes),1));
+ g.setAttribute('aR',new THREE.BufferAttribute(r,3));
+ if(cols)g.setAttribute('aC',new THREE.BufferAttribute(new Float32Array(cols),3));
+ const m=new THREE.Points(g,mat);m.frustumCulled=false;return m;
+}
+
+/* background stars */
+const bgMat=mkMat(true);
+{const n=3200,pos=[],sz=[];for(let i=0;i<n;i++){pos.push((Math.random()-.5)*10000,(Math.random()-.5)*7000,-7000+Math.random()*7800);sz.push(6+Math.random()*Math.random()*26)}
+ bgGroup.add(mkPoints(pos,sz,bgMat));}
+
+/* logo made of dot stars */
+const logoMat=mkMat(false);let logoPts=null;
+const LOGO=new Image();LOGO.onload=()=>buildLogo();LOGO.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAR4AAAC1CAYAAACJZZBPAAAEzklEQVR42u3dzXLaMBSA0cD4/V/ZXTQL2gkEY1m6P+esOwFs+fMVIfTrCx7s3xwJrnR3CHgWIEcB4UFsEB6ECIQH8UF4AIQHUw/CAwgPmHoQHkB4wNSD8ADCg6kHhAcQHkw9IDyA8GDqQXgAhIcJbrfbzdSD8ADCA6YehAfIua13CBgxwRx9f+jIcxj5s4lhcwgYFYszgbBlM/Fg2vl8Qb0Zn3cfy7Rj4oFTk4+pBhMP4cNg2qnLb7WIeUcUHeHBtCM6CA8mHYQH0w4ID7ZYxJ5sHQLBER2Eh3ZbKtHpxwcIxQZMPPQKjWnHxIO4gIlHTIovPtOO8CA4osMsPscjOiA8gK0WJh/bLYSHWqESH+FBmIQH4aFHkMRHeBAiAUJ46BUg8enBr9MJdbH7bJPwID7ig/Bg+4fwYOoRH4QHkw9JbnIOAaMv9v8np5n/JzvCQ8Pw/BaIK382wkPD8BwNwyePIz41eI+HdXe9B7O2gcTgO5cJEyFxsdXCduvQxX/VFujZ87DlMvHAlEmIOrzHAwgPIDxgO4TwAMIDIDyA8AAIDyA8JOc3WggPIDwAwgMIDyA8cIg3lhEeRAXhARAeTEQIDyA8AMJD3O2UbRbCAwgPgPAwdLtlm4XwsDRCAJfy3woDAAAAAAAAAAAAAEAJ+zdHAut9PH8k+uQkOAogPEChG63wmH5g+nrfjj6Y72TJuyhWn7vH599xHXV//f+E5+hifvXvKxxME86c41pxHR1ZO/u+7xFe56r1vl35IqpUPcoi6TzZRTz+VW9SM9b7NuvEuHCpsJZMxAnC89MJixwgiypXhGaupYprY+Vruq94sRlPoijFPCdXn5euHyS9+jVvq1+YLRgR15IbTbGJJ+oJttBMQJ0nnHbhcbKJchPptAbfea1XHo97hQXj+XHmZubG13TicXFjPQlPu8VicfaMj99Yrbs27hUOjufF0fPmPJp4XOTQzNb9AIibc+0YmHhSLBYLGLEqHh4XOtTT+hsIBQ2ERyQg6DU0+vrznctCCNNt2S72UX+BLBy5PJ73lecuyvOw1YIFF//sr1NZ8ZjRJvSRoRUeU1OJKajC45h4lBvxER3hgflxqPS/pET7WcJjegITD0SYTmyxhMeEAsXWu4lHzEw9pp3p6/3uQgdMPIIFwgO40Y7+2cJjmirl7Psz3t8x8QgDCA/gRjvmMYTHVAUmHkEA4QnJG4CQ+0Zrq2W6gunrXXgAE48JBOqvdxOP2MH09Z4uPN5YBlstkwdY78JjEUD89S48gInnlSPv75g4MHEIz9ToALHjZ6vlLgQmHtMO1L/B3Z0IQHiKTTsiiOkrWXhsscDEkyI6JgxMGMKDGGK95wiPLRbYaqWJjskChOdwcCpPOqJIpzX123MLER5bKzDxpIyOiQKEp/3WCrpv3V89x+nh6RwcUxn8tWXbUrmgQXiWxQZss3I81586MDQ8QvP5iQATj+AAFzr95vLq6Hh/B9usphMPObZboxetSZdP17u/TgfybbWMnUCr8EC3LUuV5y48FhGYeFy4IDyIJ9bK8NcgPMB0bT/H43uAsN7XrfeUE8/ZF++Db9hmrX0ttloWFaad6T9LeAKdVOgiXXhMCCA8JhQxxdo4/JpstWy3sDbjrXd3Y2C0Pw+Wk+oUpiVrAAAAAElFTkSuQmCC';
+function buildLogo(){
+ if(!LOGO.complete||!LOGO.naturalWidth)return;
+ if(logoPts){logoGroup.remove(logoPts);logoPts.geometry.dispose()}
+ const w=LOGO.naturalWidth,h=LOGO.naturalHeight,c=document.createElement('canvas');c.width=w;c.height=h;const cx=c.getContext('2d');cx.drawImage(LOGO,0,0);
+ const d=cx.getImageData(0,0,w,h).data,pos=[],sz=[],narrow=W<760,tw=Math.min(narrow?W*.7:W*.34,520),k=tw/w;let n=0,tries=0;
+ while(n<8500&&tries<500000){tries++;const xx=Math.random()*w,y=Math.random()*h;
+  if(d[((y|0)*w+(xx|0))*4+3]>128){n++;pos.push((xx-w/2)*k,-(y-h/2)*k,(Math.random()-.5)*36);sz.push((1.2+Math.pow(Math.random(),2.6)*8.5)*(tw/450));}
+ }
+ logoPts=mkPoints(pos,sz,logoMat);logoGroup.add(logoPts);
+ logoGroup.position.set(narrow?0:-W*.2,narrow?H*.2:H*.04,0);
+}
+function buildLogoOld(){
+ if(logoPts){logoGroup.remove(logoPts);logoPts.geometry.dispose()}
+ const c=document.createElement('canvas');c.width=1000;c.height=430;const x=c.getContext('2d');
+ x.fillStyle='#fff';x.font='230px Bungee, Impact, "Arial Black", sans-serif';x.textBaseline='alphabetic';x.fillText('PALMA',20,410);
+ const cx=230,cy=75,r=62;x.beginPath();x.moveTo(cx,cy-r);x.quadraticCurveTo(cx+4,cy-4,cx+r,cy);x.quadraticCurveTo(cx+4,cy+4,cx,cy+r);x.quadraticCurveTo(cx-4,cy+4,cx-r,cy);x.quadraticCurveTo(cx-4,cy-4,cx,cy-r);x.fill();
+ const d=x.getImageData(0,0,1000,430).data,pts=[];let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;const st=5;
+ for(let y=0;y<430;y+=st)for(let xx=0;xx<1000;xx+=st)if(d[(y*1000+xx)*4+3]>128){pts.push([xx,y]);x0=Math.min(x0,xx);x1=Math.max(x1,xx);y0=Math.min(y0,y);y1=Math.max(y1,y)}
+ const narrow=W<760,tw=Math.min(narrow?W*.7:W*.34,520),k=tw/(x1-x0),pos=[],sz=[];
+ for(const [px,py] of pts)for(const z of[-26,0,26]){
+  pos.push((px-(x0+x1)/2)*k+(Math.random()-.5)*3,-(py-(y0+y1)/2)*k+(Math.random()-.5)*3,z+(Math.random()-.5)*10);
+  sz.push((2.6+Math.random()*3.2)*(tw/450));
+ }
+ logoPts=mkPoints(pos,sz,logoMat);logoGroup.add(logoPts);
+ logoGroup.position.set(narrow?0:-W*.2,narrow?H*.2:H*.04,0);
+}
+
+/* dot-star borders for the images */
+function rrPoints(w,h,r){
+ const sx=w-2*r,sy=h-2*r,a=Math.PI*r/2,S=[
+  [sx,u=>[-sx/2+u*sx,h/2]],[a,u=>{const t=Math.PI/2-u*Math.PI/2;return[sx/2+r*Math.cos(t),sy/2+r*Math.sin(t)]}],
+  [sy,u=>[w/2,sy/2-u*sy]],[a,u=>{const t=-u*Math.PI/2;return[sx/2+r*Math.cos(t),-sy/2+r*Math.sin(t)]}],
+  [sx,u=>[sx/2-u*sx,-h/2]],[a,u=>{const t=-Math.PI/2-u*Math.PI/2;return[-sx/2+r*Math.cos(t),-sy/2+r*Math.sin(t)]}],
+  [sy,u=>[-w/2,-sy/2+u*sy]],[a,u=>{const t=Math.PI-u*Math.PI/2;return[-sx/2+r*Math.cos(t),sy/2+r*Math.sin(t)]}]];
+ const L=S.reduce((s,q)=>s+q[0],0),n=Math.floor(L/11),out=[];
+ for(let i=0;i<n;i++){let dd=((i+Math.random()-.5)/n*L+L)%L;for(const q of S){if(dd<=q[0]){out.push(q[1](dd/q[0]));break}dd-=q[0]}}
+ return out;
+}
+function buildCloud(s,w,h){
+ if(!s.cmat){s.cmat=mkMat(false);s.cmat.uniforms.uUseC.value=1;s.cmat.uniforms.uCam.value=CAM;s.cmat.blending=THREE.NormalBlending}
+ const cv=document.createElement('canvas');cv.width=w;cv.height=h;const c=cv.getContext('2d');c.fillStyle='#d9d9d9';c.fillRect(0,0,w,h);
+ const make=()=>{
+  if(s.cloud){s.group.remove(s.cloud);s.cloud.geometry.dispose()}
+  let data=null;try{data=c.getImageData(0,0,w,h).data}catch(e){}
+  const pos=[],sz=[],cols=[],r=36,N=Math.min(22000,Math.floor(w*h/10));let n=0,tries=0;
+  while(n<N&&tries<N*3){tries++;const x=Math.random()*w,y=Math.random()*h,qx=Math.min(Math.max(x,r),w-r),qy=Math.min(Math.max(y,r),h-r);
+   if((x-qx)*(x-qx)+(y-qy)*(y-qy)>r*r)continue;n++;
+   if(data){const i=((y|0)*w+(x|0))*4;cols.push(data[i]/255,data[i+1]/255,data[i+2]/255)}else cols.push(.85,.85,.85);
+   pos.push(x-w/2,h/2-y,(Math.random()-.5)*30);sz.push(3.2+Math.pow(Math.random(),2)*5);}
+  s.cloud=mkPoints(pos,sz,s.cmat,cols);s.cloud.visible=false;s.group.add(s.cloud);
+ };
+ make();
+ if(s.p.img){const im=new Image();im.crossOrigin='anonymous';im.onload=()=>{const k=Math.max(w/im.width,h/im.height);c.drawImage(im,(w-im.width*k)/2,(h-im.height*k)/2,im.width*k,im.height*k);make()};im.src=s.p.img}
+}
+function buildBorders(){
+ secs.forEach(s=>{
+  if(s.pts){s.group.remove(s.pts);s.pts.geometry.dispose()}
+  if(!s.group){s.group=new THREE.Group();scene.add(s.group);s.mat=mkMat(false);s.mat.uniforms.uC.value=new THREE.Color(s.p.accent)}
+  const w=s.stage.offsetWidth+44,h=s.stage.offsetHeight+44,pos=[],sz=[];
+  for(const [px,py] of rrPoints(w,h,56)){
+   pos.push(px+(Math.random()-.5)*10,py+(Math.random()-.5)*10,(Math.random()-.5)*40);sz.push(1.4+Math.pow(Math.random(),2.2)*7);
+   if(Math.random()<.3){const a=Math.random()*6.28,dd=10+Math.random()*50,nx=px+Math.cos(a)*dd,ny=py+Math.sin(a)*dd;pos.push(nx,ny,(Math.random()-.5)*80);sz.push(1+Math.pow(Math.random(),2)*4.5)}
+  }
+  s.pts=mkPoints(pos,sz,s.mat);s.group.add(s.pts);buildCloud(s,s.stage.offsetWidth,s.stage.offsetHeight);
+ });
+}
+
+function resize(){
+ W=innerWidth;H=innerHeight;R.setPixelRatio(PX);R.setSize(W,H,false);
+ CAM=H/2/Math.tan(THREE.MathUtils.degToRad(25));cam.aspect=W/H;cam.position.z=CAM;cam.updateProjectionMatrix();
+ [bgMat,logoMat,...secs.map(s=>s.mat)].forEach(m=>m&&(m.uniforms.uCam.value=CAM));
+ if(logoPts)buildLogo();buildBorders();
+ secs.forEach(s=>{s.mat.uniforms.uCam.value=CAM;if(s.cmat)s.cmat.uniforms.uCam.value=CAM});
+}
+addEventListener('resize',resize);
+
+let mx=0,my=0,tx=0,ty=0,S=0;
+addEventListener('pointermove',e=>{tx=e.clientX/W*2-1;ty=e.clientY/H*2-1});
+const col=new THREE.Color(HERO.accent),tgt=new THREE.Color();
+const cl=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),ss=v=>v*v*(3-2*v);
+const title=document.getElementById('title'),chev=document.getElementById('chev');
+let t0=performance.now(),lastIdx=-1;
+
+function frame(){
+ const t=(performance.now()-t0)/1000;
+ S+=(scrollY-S)*.06;mx+=(tx-mx)*.06;my+=(ty-my)*.06;
+ // background: scroll flies through stars, idle drifts slowly
+ const off=S*1.4+t*28;
+ bgMat.uniforms.uOff.value=off;bgMat.uniforms.uTime.value=t;
+ bgGroup.rotation.z=S*0.00008+Math.sin(t*.05)*.02;
+ bgGroup.rotation.y=mx*.05;bgGroup.rotation.x=my*.04;
+ // logo: dissolve on scroll
+ const p=ss(cl(S/(H*.95)));
+ logoMat.uniforms.uD.value=p;logoMat.uniforms.uTime.value=t;logoGroup.visible=p<.995;
+ const sw=cl(t/4);logoGroup.rotation.y=mx*.4+Math.sin(t*.5)*.08*sw;logoGroup.rotation.x=my*.22+Math.sin(t*.37)*.03*sw;
+ title.style.opacity=1-p*1.6;chev.style.opacity=1-p*2;
+ // sections
+ let best=0,bd=1e9;
+ secs.forEach((s,i)=>{
+  const r=s.stage.getBoundingClientRect(),cy=r.top+r.height/2,dist=Math.abs(cy-H/2)/H;
+  const v=ss(cl(1-(dist-.1)/.5));
+  s.group.visible=v>.01;s.mat.uniforms.uD.value=1-v;s.mat.uniforms.uTime.value=t;
+  s.group.position.set(r.left+r.width/2-W/2,H/2-cy,0);
+  const ry=(mx*9+Math.sin(t*.6+i)*2),rx=(-my*7+Math.cos(t*.5+i)*1.5);
+  s.frame.style.transform=`rotateY(${ry}deg) rotateX(${rx}deg) translateY(${Math.sin(t*.8+i)*5}px)`;
+  s.group.rotation.y=THREE.MathUtils.degToRad(ry);s.group.rotation.x=-THREE.MathUtils.degToRad(rx);
+  s.group.position.y+=-Math.sin(t*.8+i)*5;
+  s.frame.style.opacity=ss(cl((v-.9)/.1));if(s.cloud){s.cloud.visible=v<.995;s.cmat.uniforms.uD.value=1-v}s.info.style.opacity=v;
+  if(dist<bd){bd=dist;best=i+1}
+ });
+ let bd2=1e9;allSecs.forEach((el,i)=>{const r=el.getBoundingClientRect(),d=Math.abs(r.top+r.height/2-H/2);if(d<bd2){bd2=d;best=i}});
+ {const r=cs.getBoundingClientRect(),dd=Math.abs(r.top+r.height/2-H/2)/H;contactBox.style.opacity=ss(cl(1-(dd-.1)/.5));contactBox.style.transform=`translateY(${(r.top+r.height/2-H/2)*.12}px)`}
+ if(best!==lastIdx){lastIdx=best;const c=PAL[best];document.documentElement.style.setProperty('--ca',c.accent);document.body.style.background=c.bg;document.documentElement.style.background=c.bg;
+  tgt.set(c.accent);[...dotsNav.children].forEach((d,i)=>d.classList.toggle('on',i===best))}
+ col.lerp(tgt,.04);bgMat.uniforms.uC.value.copy(col);logoMat.uniforms.uC.value.set('#e9e6ff');
+ R.render(scene,cam);requestAnimationFrame(frame);
+}
+tgt.set(HERO.accent);
+resize();
+(document.fonts&&document.fonts.load?Promise.race([document.fonts.load('230px Bungee','PALMA'),new Promise(r=>setTimeout(r,2000))]):Promise.resolve())
+ .catch(()=>{}).then(()=>{buildLogo();});
+/* case study popup that grows out of the image */
+const ov=document.createElement('div');ov.id='case';ov.innerHTML='<div class="cp"><button class="cx" aria-label="Close">&times;</button><div class="cs"></div></div>';document.body.appendChild(ov);
+const cp=ov.firstChild,cs2=cp.querySelector('.cs');let cur=-1;
+const place=(r,rad)=>Object.assign(cp.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',borderRadius:rad+'px'});
+const tgtRect=()=>{const m=W<760?.03:.05;return{left:W*m,top:H*m,width:W*(1-2*m),height:H*(1-2*m)}};
+const nw=t=>t.split(' ').length>2?t.replace(/ (\S+)$/,'&nbsp;$1'):t;
+const blk=b=>{
+ if(b.video)return `<div class="vid"><iframe src="${b.video}" title="${b.title||'Video'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>`;
+ const tx=(b.h||b.p||b.list)?`<div class="bt">${b.h?`<h3>${nw(b.h)}</h3>`:''}${(b.p||[]).map(t=>`<p>${nw(t)}</p>`).join('')}${b.list?`<ul>${b.list.map(t=>`<li>${t}</li>`).join('')}</ul>`:''}</div>`:'';
+ const md=b.cols?`<div class="gc">${b.cols.map(c=>`<div style="flex:${c[0].w} 1 0">${c.map(x=>`<img src="${x.img}" alt="">`).join('')}</div>`).join('')}</div>`:b.rows?`<div class="gr">${b.rows.map(r=>`<div class="gx" style="width:${(r.frac*100).toFixed(1)}%">${r.cells.map(c=>`<img src="${c.img}" style="flex:${(c.w/c.h).toFixed(3)} 1 0;aspect-ratio:${c.w}/${c.h}" onload="this.style.flex=(this.naturalWidth/this.naturalHeight)+' 1 0';this.style.aspectRatio=this.naturalWidth+'/'+this.naturalHeight" alt="">`).join('')}</div>`).join('')}</div>`:b.img?`<img class="bi" src="${b.img}" alt="">`:'';
+ if(md&&b.split)return `<div class="bs${b.flip?' flip':''}">${md}${tx}</div>`;
+ return md||tx;
+};
+function openCase(i){
+ const s=secs[i],p=s.p,C=CASES[i]||{},r=s.frame.getBoundingClientRect();cur=i;
+ const T=C.theme||{};cp.style.setProperty('--ca',T.a||p.accent);cp.style.setProperty('--cbg',T.bg||p.bg);cp.style.setProperty('--cf',T.fg||'#e6e6e6');cp.style.setProperty('--ch',T.h||'#fff');cp.style.setProperty('--cl',T.line||'rgba(255,255,255,.18)');cp.style.setProperty('--h0',r.height+'px');
+ cs2.innerHTML=`<div class="hero"><img src="${p.img}" alt=""></div><div class="cbody"><h2>${nw(p.title)}</h2>
+ <div class="cmeta"><div><b>Client</b><span>${C.client||''}</span></div><div><b>Type</b><span>${C.type||''}</span></div></div>
+ ${p.desc.map(d=>`<p>${nw(d)}</p>`).join('')}
+ <div class="cblocks">${(C.blocks||[]).map(blk).join('')}</div></div>`;
+ cp.classList.remove('full');cp.style.transition='none';place(r,36);ov.classList.add('on');cs2.scrollTop=0;
+ document.documentElement.style.overflow='hidden';void cp.offsetWidth;cp.style.transition='';
+ requestAnimationFrame(()=>{ov.classList.add('bg');cp.classList.add('full');place(tgtRect(),28)});
+}
+function closeCase(){
+ if(cur<0)return;const s=secs[cur];cur=-1;ov.classList.remove('bg');cp.classList.remove('full');place(s.frame.getBoundingClientRect(),36);
+ setTimeout(()=>{if(cur<0){ov.classList.remove('on');document.documentElement.style.overflow=''}},700);
+}
+main.addEventListener('click',e=>{const b=e.target.closest('.btn[data-i]');if(b){e.preventDefault();openCase(+b.dataset.i)}});
+ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('.cx'))closeCase()});
+addEventListener('keydown',e=>{if(e.key==='Escape')closeCase()});
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
